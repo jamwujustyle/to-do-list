@@ -15,11 +15,14 @@ loginForm.addEventListener("submit", async (e) => {
 
   const email = loginEmail.value;
   const password = loginPassword.value;
+  console.log(email);
+  console.log(password);
 
   const data = {
     email: email,
     password: password,
   };
+  console.log(data);
   try {
     const response = await fetch("http://127.0.0.1:5000/login", {
       method: "POST",
@@ -28,17 +31,19 @@ loginForm.addEventListener("submit", async (e) => {
       },
       body: JSON.stringify(data),
     });
-
+    console.log(`response status: `, response.status);
     const result = await response.json();
-
-    if (result.ok) {
-      window.location.href = "/index";
+    console.log("response body", result);
+    if (response.ok && result.message === "login successful") {
+      console.log("login successful. redirecting..");
+      window.location.href = "../templates/index.html";
     } else {
+      console.log("login failed: ", result.error);
       alert(result.error || "login failed. try again");
     }
   } catch (err) {
-    console.error("error occured: ", err);
-    alert("error occured. try again");
+    console.error("error : ", err);
+    alert(`error occured. from catch block ${err}`);
   }
 });
 

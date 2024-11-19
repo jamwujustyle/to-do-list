@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, render_template
 import psycopg2
 import bcrypt
 from db import connect
@@ -91,7 +91,7 @@ def login():
 
 @app.route("/index")
 def index():
-    return app.send_static_file("index.html")
+    return render_template("index.html")
 
 
 if __name__ == "__main__":
